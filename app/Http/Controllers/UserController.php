@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\UpdateUserRequest;
 use App\Http\Requests\ValidateUserRequest;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 
@@ -15,9 +16,12 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $Pagination=20;
-        $users=User::paginate($Pagination);
-        return view('index',compact('users'));
+        $Pagination = 20;
+
+        $users = User::query();
+        $users = $users->filter($request);
+        $users = $users->paginate($Pagination);
+        return view('list-users', compact('users'));
     }
 
     /**
@@ -35,18 +39,18 @@ class UserController extends Controller
     {
         $validator = $request->validated();
 
-        $user=new User();
-        $password= Hash::make($request->password);
-        $user->username=$request->username;
-        $user->first_name=$request->first_name;
-        $user->password=$password;
-        $user->last_name=$request->last_name;
-        $user->email=$request->email;
-        $user->is_admin=$request->is_admin;
-        $user->is_active=$request->is_active;
+        $user = new User();
+        $password = Hash::make($request->password);
+        $user->username = $request->username;
+        $user->first_name = $request->first_name;
+        $user->password = $password;
+        $user->last_name = $request->last_name;
+        $user->email = $request->email;
+        $user->is_admin = $request->is_admin;
+        $user->is_active = $request->is_active;
         $user->save();
-        return redirect('/user');
-      
+        return redirect('/users');
+
     }
 
     /**
@@ -61,25 +65,28 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-        $user=User::where('id',$id)->first();
-        return view('edit',compact('user'));
+        $user = User::where('id', $id)->first();
+        return view('edit', compact('user'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(ValidateUserRequest $request, string $id)
+    public function update(UpdateUserRequest $request, string $id)
     {
-        
+        $request->id = $id;
         $validator = $request->validated();
-        
-        $user=User::where('id',$id)->first();
-        $user->username=$request->username;
-        $user->first_name=$request->first_name;
-        $user->last_name=$request->last_name;
-        $user->email=$request->email;
+
+        $user = User::where('id', $id)->first();
+        $user->username = $request->username;
+        $user->first_name = $request->first_name;
+        $user->last_name = $request->last_name;
+        $user->email = $request->email;
+        $user->is_admin = $request->is_admin;
+        $user->is_active = $request->is_active;
+
         $user->save();
-        return redirect('/user');
+        return redirect('/users');
     }
 
     /**
@@ -87,7 +94,7 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        $user=User::where('id',$id)->delete();
-        return redirect('/user');
+        $user = User::where('id', $id)->delete();
+        return redirect('/users');
     }
 }

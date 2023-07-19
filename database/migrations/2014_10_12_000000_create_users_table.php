@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('last_name')->nullable();
             $table->boolean('is_admin')->default(false);
             $table->boolean('is_active')->default(true);
+            $table->rememberToken();
             $table->softDeletes();
             $table->timestamps();
         });
