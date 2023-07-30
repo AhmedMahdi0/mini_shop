@@ -11,15 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('inventories', function (Blueprint $table) {
+        Schema::create('brands', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->unsignedBigInteger('city_id');
-            $table->string('phone');
-            $table->boolean('is_active');
-            $table->softDeletes();
+            $table->string('notes')->nullable();
+            $table->string('icon');
             $table->timestamps();
-            $table->foreign('city_id')->references('id')->on('cities');
+            $table->softDeletes();
+
         });
     }
 
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('inventories');
+        Schema::dropIfExists('brands');
     }
 };

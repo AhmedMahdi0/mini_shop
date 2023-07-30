@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\dashboard;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Requests\ValidateUserRequest;
 use App\Models\User;
@@ -20,8 +21,9 @@ class UserController extends Controller
 
         $users = User::query();
         $users = $users->filter($request);
+        $queryParams = $request->except('page');
         $users = $users->paginate($Pagination);
-        return view('list-users', compact('users'));
+        return view('user.list-users', compact(['users','queryParams']));
     }
 
     /**
@@ -29,7 +31,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('create');
+        return view('user.create');
     }
 
     /**
@@ -66,7 +68,10 @@ class UserController extends Controller
     public function edit(string $id)
     {
         $user = User::where('id', $id)->first();
-        return view('edit', compact('user'));
+        if ($user==null){
+            return redirect()->back();
+        }
+        return view('user.edit', compact('user'));
     }
 
     /**

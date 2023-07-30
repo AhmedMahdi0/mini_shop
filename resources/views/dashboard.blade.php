@@ -1,4 +1,4 @@
-@include('dashboardComponent.dashboard-nav')
+@include('dashboard.dashboardComponent.dashboard-nav')
     <div class="body-wrapper">
         <!--  Header Start -->
         <header class="app-header">
@@ -398,4 +398,4 @@
         </div>
     </div>
 </div>
-@include('dashboardComponent.footer')
+@include('dashboard.dashboardComponent.footer')

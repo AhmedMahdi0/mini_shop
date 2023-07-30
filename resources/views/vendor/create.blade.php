@@ -1,4 +1,4 @@
-@include('dashboardComponent.dashboard-nav')
+@include('dashboard.dashboardComponent.dashboard-nav')
 <div class="body-wrapper p-4">
     @if($errors->all()!=null)
         <div class="alert alert-danger" role="alert">
@@ -43,4 +43,4 @@
     </form>
 </div>
 </div>
-@include('dashboardComponent.footer')
+@include('dashboard.dashboardComponent.footer')

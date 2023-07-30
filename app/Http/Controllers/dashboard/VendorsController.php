@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\dashboard;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\VendorsRequest;
 use App\Models\Vendor;
 use Illuminate\Http\Request;
@@ -15,8 +16,9 @@ class VendorsController extends Controller
 
         $vendors = Vendor::query();
         $vendors = $vendors->filter($request);
+        $queryParams = $request->except('page');
         $vendors = $vendors->paginate($Pagination);
-        return view('vendor.list-vendors',compact('vendors'));
+        return view('vendor.list-vendors',compact(['vendors','queryParams']));
     }
 
     /**
@@ -41,7 +43,7 @@ class VendorsController extends Controller
         $vendor->phone = $request->phone;
         $vendor->is_active = $request->is_active;
         $vendor->save();
-        return redirect('/users');
+        return redirect('/vendors');
     }
 
     /**
@@ -58,6 +60,9 @@ class VendorsController extends Controller
     public function edit(string $id)
     {
         $vendor = Vendor::where('id', $id)->first();
+        if ($vendor==null){
+            return redirect()->back();
+        }
         return view('vendor.edit', compact('vendor'));
     }
 
@@ -66,10 +71,8 @@ class VendorsController extends Controller
      */
     public function update(VendorsRequest $request, string $id)
     {
-
-        $request->id = $id;
+        $request->id=$id;
         $validator = $request->validated();
-
         $vendor = Vendor::where('id', $id)->first();
         $vendor->first_name = $request->first_name;
         $vendor->last_name = $request->last_name;

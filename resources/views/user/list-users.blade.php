@@ -1,4 +1,4 @@
-@include('dashboardComponent.dashboard-nav')
+@include('dashboard.dashboardComponent.dashboard-nav')
     <div class="body-wrapper p-4">
         <form action="{{route('users')}}" method="get" id="filter">
         <div class="row">
@@ -48,6 +48,7 @@
             <td>Email</td>
             <td>Is Admin</td>
             <td>Is Active</td>
+            <td>Address</td>
             <td>Edit</td>
             <td>Delete</td>
             </thead>
@@ -60,6 +61,7 @@
                     <td>{{$user->email}}</td>
                     <td>{{$user->is_admin}}</td>
                     <td>{{$user->is_active}}</td>
+                    <td><a href={{url('address/users/update/').'/'.$user->id}}>Address</a></td>
                     <td><a href={{url('/edit').'/'.$user->id}}>edit</a></td>
                     <td><a href={{url('/delete').'/'.$user->id}}>delete</a></td>
                 </tr>
@@ -67,14 +69,14 @@
             </tbody>
         </table>
         <div class='col-6 page-link'>
-            {{$users->links()}}
+            {{$users->appends($queryParams)->links()}}
         </div>
     </div>
     </div>
 
 
 <div>
-@include('dashboardComponent.footer')
+@include('dashboard.dashboardComponent.footer')
 
     <script>
     $('#filter').submit(function (event) {

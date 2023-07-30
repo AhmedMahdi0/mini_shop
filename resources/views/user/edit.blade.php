@@ -1,4 +1,4 @@
-@include('dashboardComponent.dashboard-nav')
+@include('dashboard.dashboardComponent.dashboard-nav')
 <div class="body-wrapper p-4">
     @if($errors->all()!=null)
         <div class="alert alert-danger" role="alert">
@@ -12,17 +12,20 @@
         @csrf
         <div class="col-md-12 mb-3">
             <label for="inputEmail4" class="form-label">User name</label>
-            <input type="text" class="form-control" placeholder="Username" aria-label="username" name="username" value="{{$user->username}}">
+            <input type="text" class="form-control" placeholder="Username" aria-label="username" name="username"
+                   value="{{$user->username}}">
         </div>
 
         <div class="row">
             <div class="col-md-6 mb-3">
                 <label for="inputEmail4" class="form-label">First name</label>
-                <input type="text" class="form-control" placeholder="First name" aria-label="First name" name="first_name" value="{{$user->first_name}}">
+                <input type="text" class="form-control" placeholder="First name" aria-label="First name"
+                       name="first_name" value="{{$user->first_name}}">
             </div>
             <div class="col-md-6 mb-3">
                 <label for="inputEmail4" class="form-label">Last name</label>
-                <input type="text" class="form-control" placeholder="Last name" aria-label="Last name"name="last_name" value="{{$user->last_name}}">
+                <input type="text" class="form-control" placeholder="Last name" aria-label="Last name" name="last_name"
+                       value="{{$user->last_name}}">
             </div>
         </div>
         <div class="col-md-12 mb-3">
@@ -45,6 +48,7 @@
             </select>
         </div>
 
+
         <div class="col-12 mb-3">
             <button type="submit" class="btn btn-primary">edit</button>
         </div>
@@ -52,4 +56,4 @@
 
 </div>
 </div>
-@include('dashboardComponent.footer')
+@include('dashboard.dashboardComponent.footer')

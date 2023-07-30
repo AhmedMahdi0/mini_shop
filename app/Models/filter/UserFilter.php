@@ -21,16 +21,13 @@ class UserFilter
 //        return $query;
 
 
-
         foreach ($filter->all() as $key => $value) {
-            if(!array_key_exists($key, UserFilter::$collection)){
+            if (!array_key_exists($key, UserFilter::$collection)) {
                 continue;
             }
             UserFilter::$collection[$key]::applyFilter($query, $filter);
-         }
+        }
         return $query;
-
-
 
 
     }

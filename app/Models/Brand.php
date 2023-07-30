@@ -2,15 +2,18 @@
 
 namespace App\Models;
 
+use App\Models\filter\BrandFilter;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class City extends Model
+
+class Brand extends Model
 {
     use HasFactory,SoftDeletes;
-    public function country()
+    public function scopeFilter($query,$data)
     {
-        return $this->hasOne(Country::class, 'id', 'country_id');
+        $filter=new BrandFilter();
+        return $filter->scopeUser($query,$data);
     }
 }

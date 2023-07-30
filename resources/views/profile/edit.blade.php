@@ -1,4 +1,4 @@
-@include('dashboardComponent.dashboard-nav')
+@include('dashboard.dashboardComponent.dashboard-nav')
 <div class="body-wrapper">
     <div class="bg-light-info mt-2 pt-2 pb-3">
         @include('profile.partials.update-profile-information-form')
@@ -15,4 +15,4 @@
 
 </div>
 </div>
-@include('dashboardComponent.footer')
+@include('dashboard.dashboardComponent.footer')

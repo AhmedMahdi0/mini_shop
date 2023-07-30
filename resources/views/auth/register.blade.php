@@ -1,4 +1,4 @@
-@include('dashboardComponent.header')
+@include('dashboard.dashboardComponent.header')
 
   <!--  Body Wrapper -->
   <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
@@ -61,4 +61,4 @@
       </div>
     </div>
   </div>
-@include('dashboardComponent.footer')
+@include('dashboard.dashboardComponent.footer')

@@ -1,28 +1,14 @@
 @include('dashboard.dashboardComponent.dashboard-nav')
 <div class="body-wrapper p-4">
-    <form action="{{url('vendors')}}" method="get" id="filter">
+    <form action="{{url('brands')}}" method="get" id="filter">
         <div class="row">
-            <div class="col-md-4 mb">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" placeholder="Email" aria-label="email" name="email">
-            </div>
             <div class="col-md-3 mb-3">
                 <label for="Name" class="form-label">Name</label>
                 <input type="text" class="form-control" placeholder="Name" aria-label="Name" name="name">
             </div>
             <div class="col-md-3 mb-3">
-                <label for="Phone" class="form-label">Phone</label>
-                <input type="text" class="form-control" placeholder="Phone" aria-label="Phone" name="phone">
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-3 mb-3">
-                <label for="Is_active" class="form-label">Is Active</label>
-                <select class="form-select" id="Is_active" name='is_active'>
-                    <option selected value="">all</option>
-                    <option value="1">Active</option>
-                    <option value="0">InActive</option>
-                </select>
+                <label for="Notes" class="form-label">Notes</label>
+                <input type="text" class="form-control" placeholder="Notes" aria-label="Notes" name="notes">
             </div>
             <div class="mb-3 d-inline-block col-md-4  pt-4 ">
                 <button type="submit" class="btn btn-primary col-md-3 " value="submit">filter</button>
@@ -33,32 +19,26 @@
 
     <table class="table table-striped table-light">
         <thead>
-        <td>First Name</td>
-        <td>Last Name</td>
-        <td>Email</td>
-        <td>Phone</td>
-        <td>Is Active</td>
-        <td>Address</td>
+        <td>Icon</td>
+        <td>Name</td>
+        <td>Notes</td>
         <td>Edit</td>
         <td>Delete</td>
         </thead>
         <tbody>
-        @foreach ($vendors as $vendor)
+        @foreach ($brands as $brand)
             <tr>
-                <td>{{$vendor->first_name??'no first name'}}</td>
-                <td>{{$vendor->last_name??'no last name'}}</td>
-                <td>{{$vendor->email}}</td>
-                <td>{{$vendor->phone}}</td>
-                <td>{{$vendor->is_active}}</td>
-                <td><a href={{url('address/vendors/update/').'/'.$vendor->id}}>Address</a></td>
-                <td><a href='{{url('/vendors/edit').'/'.$vendor->id}}'>edit</a></td>
-                <td><a href='{{url('/vendors/delete').'/'.$vendor->id}}'>delete</a></td>
+                <td><img src="{{asset('storage/images/brands/'.$brand->icon)}}" width="60" height="60" alt="Brand Image"></td>
+                <td>{{$brand->name}}</td>
+                <td>{{$brand->notes}}</td>
+                <td><a href={{url('brands/edit').'/'.$brand->id}}>edit</a></td>
+                <td><a href={{url('brands/delete').'/'.$brand->id}}>delete</a></td>
             </tr>
         @endforeach
         </tbody>
     </table>
     <div class='col-6 page-link'>
-        {{$vendors->appends($queryParams)->links()}}
+        {{$brands->appends($queryParams)->links()}}
     </div>
 </div>
 </div>

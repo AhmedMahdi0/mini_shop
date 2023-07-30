@@ -1,4 +1,4 @@
-@include('dashboardComponent.dashboard-nav')
+@include('dashboard.dashboardComponent.dashboard-nav')
 <div class="body-wrapper p-4">
     @if($errors->all()!=null)
         <div class="alert alert-danger" role="alert">
@@ -8,7 +8,7 @@
             @endforeach
         </div>
     @endif
-    <form action="{{url('/vendors/create')}}" method="post">
+    <form action="{{url('/create')}}" method="post">
         @csrf
         <div class="col-md-12 mb-3">
             <label for="inputEmail4" class="form-label">User name</label>
@@ -59,4 +59,4 @@
     </form>
 </div>
 </div>
-@include('dashboardComponent.footer')
+@include('dashboard.dashboardComponent.footer')
