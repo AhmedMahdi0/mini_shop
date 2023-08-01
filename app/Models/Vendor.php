@@ -21,4 +21,5 @@ class Vendor extends Model
     {
         return $this->morphOne(Address::class, 'addressable');
     }
+
 }

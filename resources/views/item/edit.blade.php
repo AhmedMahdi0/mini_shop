@@ -39,11 +39,6 @@
         </div>
 
         <div class="col-md-12 mb-3">
-            <label for="inputEmail4" class="form-label">Quantity</label>
-            <input type="text" class="form-control" placeholder="quantity" aria-label="quantity" name="quantity" value="{{$quantity->quantity}}">
-        </div>
-
-        <div class="col-md-12 mb-3">
             <label for="Notes" class="form-label">Image</label>
             <div class="input-group mb-3">
                 <input type="file" class="form-control" id="icon" name="image" accept = 'image/jpeg , image/jpg, image/png'>

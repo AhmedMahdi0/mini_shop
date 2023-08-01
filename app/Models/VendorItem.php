@@ -12,4 +12,5 @@ class VendorItem extends Model
     protected $primaryKey=['item_id','vendor_id'];
     public $incrementing = false;
     protected $keyType = ['string', 'string'];
+
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\Item;
+use App\Models\VendorItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -26,30 +27,29 @@ class InventoryItemController extends Controller
 
     public function store(Request $request, $id)
     {
-        foreach ($request->items as $item_id => $quantity) {
+        foreach ($request->items as $key => $quantity) {
             if ($quantity == null)
                 continue;
-
-            $item_quantity = DB::table('vendor_items')->where('item_id', $item_id)->first();
-            $item_vendor = DB::table('inventory_items')->where(['inventory_id' => $id, 'item_id' => $item_id])->first();
+            $array=str_split($key);
+            $item_quantity = VendorItem::where('item_id', $array[0])->where('vendor_id',$array[2])->first();
+            $item_vendor = DB::table('inventory_items')->where(['inventory_id' => $id, 'item_id' => $array[0]])->first();
 
             if ($item_quantity->quantity < $quantity)
                 continue;
-            DB::table('vendor_items')->where('item_id', $item_id)
+            VendorItem::where('item_id', $array[0])
                 ->update(['quantity' => $item_quantity->quantity - $quantity]);
-
 
 
             if (!$item_vendor)
                 DB::table('inventory_items')
-                    ->insert(['inventory_id' => $id, 'item_id' => $item_id, 'quantity' => $quantity]);
+                    ->insert(['inventory_id' => $id, 'item_id' => $array[0], 'quantity' => $quantity]);
             else
                 DB::table('inventory_items')
                     ->update(['quantity' => $item_vendor->quantity + $quantity]);
 
-            $item = Item::where('id', $item_id)->first();
-            $item->total_purchases=$item->total_purchases+$quantity;
-            $item->is_purchases=$item_quantity->quantity>0;
+            $item = Item::where('id', $array[0])->first();
+            $item->total_purchases = $item->total_purchases + $quantity;
+            $item->is_purchases = $item_quantity->quantity > 0;
             $item->save();
         }
         return redirect('inventory/add');
@@ -69,19 +69,19 @@ class InventoryItemController extends Controller
     }
 
 
-    public function destroy($id,$item_id)
+    public function destroy($id, $item_id)
     {
-        $item_vendor = DB::table('vendor_items')->where('item_id', $item_id)->first();
-        $inventory_item=DB::table('inventory_items')->where('inventory_id',$id)->where('item_id',$item_id)->first();
-        DB::table('vendor_items')->where('item_id', $item_id)
-            ->update(['quantity' => $item_vendor->quantity+$inventory_item->quantity]);
+        $item_vendor = VendorItem::where('item_id', $item_id)->first();
+        $inventory_item = DB::table('inventory_items')->where('inventory_id', $id)->where('item_id', $item_id)->first();
+        VendorItem::where('item_id', $item_id)
+            ->update(['quantity' => $item_vendor->quantity + $inventory_item->quantity]);
 
         $item = Item::where('id', $item_id)->first();
-        $item->total_purchases=$item->total_purchases-$inventory_item->quantity;
-        $item->is_purchases=DB::table('vendor_items')->where('item_id', $item_id)->first()->quantity>0;
+        $item->total_purchases = $item->total_purchases - $inventory_item->quantity;
+        $item->is_purchases = VendorItem::where('item_id', $item_id)->first()->quantity > 0;
         $item->save();
 
-        DB::table('inventory_items')->where('inventory_id',$id)->where('item_id',$item_id)->delete();
+        DB::table('inventory_items')->where('inventory_id', $id)->where('item_id', $item_id)->delete();
         return redirect('inventory/add');
     }
 }

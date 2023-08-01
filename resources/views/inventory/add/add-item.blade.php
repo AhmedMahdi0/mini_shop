@@ -31,19 +31,23 @@
             <td>Quantity</td>
             <td>Image</td>
             <td>Item Name</td>
+            <td>Vendor Name</td>
             <td>Item Brand Name</td>
             <td>Is Active</td>
             </thead>
             <tbody>
             @foreach ($items as $item)
-                <tr>
-                    <td><input type="text" class="form-control" placeholder="Available Quantity Is {{$item->item->quantity}}" aria-label="Quantity"
-                               name="items{{"[$item->id]"}}"></td>
-                    <td><img src="{{url('storage/images/items/'.$item->image)}}" width="60" height="60"></td>
-                    <td>{{$item->name}}</td>
-                    <td>{{$item->brand->name}}</td>
-                    <td>{{$item->is_active}}</td>
-                </tr>
+                @foreach($item->vendors as $vendor)
+                    <tr>
+                        <td><input type="text" class="form-control" placeholder="Available Quantity {{$item->item->where('vendor_id',$vendor->id)->first()->quantity}}" aria-label="Quantity"
+                                   name="items{{"[$item->id $vendor->id]"}}"></td>
+                        <td><img src="{{url('storage/images/items/'.$item->image)}}" width="60" height="60"></td>
+                        <td>{{$item->name}}</td>
+                        <td>{{$vendor->first_name.' '.$vendor->last_name}}</td>
+                        <td>{{$item->brand->name}}</td>
+                        <td>{{$item->is_active}}</td>
+                    </tr>
+                @endforeach
             @endforeach
             </tbody>
         </table>

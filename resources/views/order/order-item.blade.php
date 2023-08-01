@@ -2,38 +2,22 @@
 <div class="body-wrapper p-4">
     <table class="table table-striped table-light">
         <thead>
-        <td>Image</td>
+        <td>Item Name</td>
+        <td>Inventory Name</td>
+        <td>Status</td>
         <td>Quantity</td>
-        <td>Name</td>
-        <td>Brand Name</td>
-        <td>Price</td>
-        <td>Delete</td>
+        <td>Order At</td>
         </thead>
         <tbody>
-        @if($items)
-            <form action="{{url("order/list/$is_admin")}}" method="post">
-                @csrf
-                @foreach ($items as $key=>$item)
-                    <tr>
-                        <td><img src="{{asset('storage/images/items/'.$item[1])}}" width="60" height="60"
-                                 alt="Brand Image">
-                        </td>
-                        <td>{{$item[5]}}</td>
-                        <td>{{$item[2]}}</td>
-                        <td>{{$item[3]??'no brand active'}}</td>
-                        <td>{{$item[4]}}</td>
-                        <td><a href={{url('cart').'/'.$item[0]}}>delete</a></td>
-                    </tr>
-                @endforeach
-                <td colspan="3">
-                    <button type="submit"
-                            style="background: none; border: none; cursor: pointer; color:#0f364b;padding-top: 5px"
-                            aria-expanded="false">Check Out
-                    </button>
-                </td>
-
-            </form>
-        @endif
+        @foreach ($purchase as $item)
+                <tr>
+                    <td>{{$item->item->name}}</td>
+                    <td>{{$item->inventory->name}}</td>
+                    <td>{{$item->status}}</td>
+                    <td>{{$item->quantity}}</td>
+                    <td>{{$item->created_at}}</td>
+                </tr>
+        @endforeach
         </tbody>
     </table>
     <div class='col-6 page-link'>
@@ -79,7 +63,5 @@
         const url = this.action + '?' + queryString;
         window.location.href = url;
     });
-
-
 
     </script>

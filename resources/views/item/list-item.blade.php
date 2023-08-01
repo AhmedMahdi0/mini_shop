@@ -67,6 +67,7 @@
         <td>Total Purchases</td>
         <td>Total Sales</td>
         <td>Is Active</td>
+        <td>Add Vendor</td>
         <td>Edit</td>
         <td>Delete</td>
         <td>add to cart</td>
@@ -82,6 +83,7 @@
                 <td>{{$item->total_purchases}}</td>
                 <td>{{$item->total_sales}}</td>
                 <td>{{$item->is_active?'Active':'InActive'}}</td>
+                <td><a href={{url('items/add/vendor/').'/'.$item->id}}>Add Vendor</a></td>
                 <td><a href={{url('items/edit').'/'.$item->id}}>edit</a></td>
                 <td><a href={{url('items/delete').'/'.$item->id}}>delete</a></td>
 
@@ -90,8 +92,11 @@
                     <form action="{{url('cart')}}" method="post">
                         @csrf
                         <input type="hidden" value="{{$item->id}}" name="id">
-                        <a href={{url('cart')}}  onclick="event.preventDefault();this.closest('form').submit();"
-                           aria-expanded="false">add to cart</a></form>
+                        <input type="number" placeholder="Quantity" class="form-control" name="quantity" required >
+                        <button type="submit" style="background: none; border: none; cursor: pointer; color: cornflowerblue;padding-top: 5px"
+                                aria-expanded="false">add to cart
+                        </button>
+                    </form>
                 </td>
                 @else
                     <td>Can not Purchases</td>

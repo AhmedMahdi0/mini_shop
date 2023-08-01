@@ -22,7 +22,7 @@ class CartController extends Controller
         if ($item->is_purchases && $item->is_active) {
             $items = $request->session()->get('items');
 
-            $items[$item->id] = [$item->id, $item->image, $item->name, $item->brand->name,$item->price];
+            $items[$item->id] = [$item->id, $item->image, $item->name, $item->brand->name,$item->price, $request->quantity];
             $request->session()->put('items', $items);
         }
         return redirect('cart');

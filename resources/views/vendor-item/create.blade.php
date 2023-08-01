@@ -22,11 +22,23 @@
                 @endforeach
 
             </select>
-        </div>
 
+        </div>
+        <div class="input-group mb-3">
+            <label class="input-group-text" for="brand_id">Vendor</label>
+            <select class="form-select" id="vendor_id" name='vendor_id'>
+                @foreach($vendors as $vendor)
+                    <option value="{{$vendor->id}}" >{{$vendor->first_name.' '.$vendor->last_name}}</option>
+                @endforeach
+            </select>
+        </div>
         <div class="col-md-12 mb-3">
             <label for="inputEmail4" class="form-label">Price</label>
             <input type="text" class="form-control" placeholder="price" aria-label="price" name="price">
+        </div>
+        <div class="col-md-12 mb-3">
+            <label for="inputEmail4" class="form-label">Quantity</label>
+            <input type="text" class="form-control" placeholder="quantity" aria-label="quantity" name="quantity">
         </div>
 
         <div class="input-group mb-3">

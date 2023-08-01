@@ -23,6 +23,10 @@ class Item extends Model
     }
     public function item()
     {
-        return $this->hasOne(VendorItem::class);
+        return $this->hasMany(VendorItem::class);
+    }
+    public function vendors()
+    {
+        return $this->belongsToMany(Vendor::class, VendorItem::class);
     }
 }

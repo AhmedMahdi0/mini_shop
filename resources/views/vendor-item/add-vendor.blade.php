@@ -1,43 +1,33 @@
 @include('dashboard.dashboardComponent.dashboard-nav')
 <div class="body-wrapper p-4">
+    <form action="{{url('items/add/vendor/'.$itemId)}}" method="post">
+        @csrf
     <table class="table table-striped table-light">
         <thead>
-        <td>Image</td>
-        <td>Quantity</td>
-        <td>Name</td>
-        <td>Brand Name</td>
-        <td>Price</td>
-        <td>Delete</td>
+        <td>select</td>
+        <td>Vendor First Name</td>
+        <td>Vendor Last Name</td>
+        <td>Vendor Phone Number</td>
         </thead>
         <tbody>
-        @if($items)
-            <form action="{{url("order/list/$is_admin")}}" method="post">
-                @csrf
-                @foreach ($items as $key=>$item)
-                    <tr>
-                        <td><img src="{{asset('storage/images/items/'.$item[1])}}" width="60" height="60"
-                                 alt="Brand Image">
-                        </td>
-                        <td>{{$item[5]}}</td>
-                        <td>{{$item[2]}}</td>
-                        <td>{{$item[3]??'no brand active'}}</td>
-                        <td>{{$item[4]}}</td>
-                        <td><a href={{url('cart').'/'.$item[0]}}>delete</a></td>
-                    </tr>
-                @endforeach
-                <td colspan="3">
-                    <button type="submit"
-                            style="background: none; border: none; cursor: pointer; color:#0f364b;padding-top: 5px"
-                            aria-expanded="false">Check Out
-                    </button>
-                </td>
-
-            </form>
-        @endif
+        @foreach ($vendors as $vendor)
+            <tr>
+                <td><input type="text" class="form-control" placeholder="Add Quantity" aria-label="Quantity"
+                           name="items{{"[$vendor->id]"}}"></td>
+                <td>{{$vendor->first_name}}</td>
+                <td>{{$vendor->last_name}}</td>
+                <td>{{$vendor->phone}}</td>
+            </tr>
+        @endforeach
         </tbody>
     </table>
     <div class='col-6 page-link'>
+        {{$vendors->appends($queryParams)->links()}}
     </div>
+        <div class="mb-3 d-inline-block col-md-4  pt-4 ">
+            <button type="submit" class="btn btn-primary col-md-3 " value="submit">Add Vendors</button>
+        </div>
+    </form>
 </div>
 </div>
 
@@ -79,7 +69,5 @@
         const url = this.action + '?' + queryString;
         window.location.href = url;
     });
-
-
 
     </script>

@@ -9,8 +9,10 @@ use App\Http\Controllers\dashboard\InventoryController;
 use App\Http\Controllers\dashboard\ItemController;
 use App\Http\Controllers\dashboard\InventoryItemController;
 use App\Http\Controllers\dashboard\AddressController;
+use App\Http\Controllers\dashboard\PurchaseOrderController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\dashboard\VendorInventoryController;
+use App\Http\Controllers\dashboard\VendorItemController;
 use App\Http\Middleware\Admin;
 use Illuminate\Support\Facades\Route;
 
@@ -102,6 +104,11 @@ Route::middleware(Admin::class)->group(
         Route::get('inventory/show/vendor/{id}', [VendorInventoryController::class, 'show']);
         Route::get('inventory/show/items/{id}', [InventoryItemController::class, 'show']);
     });
+Route::middleware(Admin::class)->group(
+    function () {
+        Route::get('items/add/vendor/{id}', [VendorItemController::class, 'index']);
+        Route::post('items/add/vendor/{id}', [VendorItemController::class, 'store']);
+    });
 
 Route::middleware(Admin::class)->group(
     function () {
@@ -118,6 +125,10 @@ Route::group(['cart'], function () {
     Route::get('/cart', [CartController::class, 'index']);
     Route::post('/cart', [CartController::class, 'create']);
     Route::get('/cart/{id}', [CartController::class, 'destroy']);
+});
+Route::group(['cart'], function () {
+    Route::get('/order/list/{id}', [PurchaseOrderController::class, 'index']);
+    Route::post('/order/list/{id}', [PurchaseOrderController::class, 'store']);
 });
 
 require __DIR__ . '/auth.php';
