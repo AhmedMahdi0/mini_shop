@@ -16,14 +16,22 @@ class VendorEmailCommand extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    protected $data;
+
+    public function __construct($data)
     {
-        //
+        $this->data = $data;
     }
 
     /**
      * Get the message envelope.
      */
+    public function build()
+    {
+        return $this->view('emails.command')
+            ->subject('Inventory is less than 50')
+            ->with('name', $this->data);
+    }
     public function envelope(): Envelope
     {
         return new Envelope(
@@ -37,7 +45,7 @@ class VendorEmailCommand extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.name',
+            view: 'email.command',
         );
     }
 

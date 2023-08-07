@@ -21,5 +21,8 @@ class Vendor extends Model
     {
         return $this->morphOne(Address::class, 'addressable');
     }
-
+    public function items()
+    {
+        return $this->belongsToMany(Item::class, VendorItem::class);
+    }
 }
