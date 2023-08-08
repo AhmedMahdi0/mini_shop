@@ -15,11 +15,8 @@ return [
     |
     */
 
-    'stateful' => explode(',', env('SANCTUM_STATEFUL_DOMAINS', sprintf(
-        '%s%s',
-        'localhost,localhost:3000,127.0.0.1,127.0.0.1:8000,::1',
-        Sanctum::currentApplicationUrlWithPort()
-    ))),
+    'stateful' => explode(',', env('SANCTUM_STATEFUL_DOMAINS', 'localhost,127.0.0.1')),
+
 
     /*
     |--------------------------------------------------------------------------
@@ -45,9 +42,9 @@ return [
     | "expires_at" attribute, but first-party sessions are not affected.
     |
     */
-
     'expiration' => null,
-
+    'token_expiration' => 60,
+    'rt_expiration' => 7 * 24 * 60,
     /*
     |--------------------------------------------------------------------------
     | Sanctum Middleware
