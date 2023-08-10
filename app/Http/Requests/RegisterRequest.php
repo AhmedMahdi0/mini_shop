@@ -23,16 +23,11 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'username' => 'required|min:4|unique:users,username',
-            'first_name' => 'min:3|max:15',
-            'last_name' => 'min:3|max:15',
-            'email' => 'required|unique:users|email',
-            'password' => 'required|min:7',
+            'password' => ['required','min:7'],
+            'email' => ['required','unique:users','email'],
+            'username' => ['required','min:4','unique:users,username'],
+            'first_name' => ['min:3','max:15'],
+            'last_name' => ['min:3','max:15'],
         ];
-    }
-
-    protected function failedValidation(Validator $validator)
-    {
-        return ['error' => $validator->errors()];
     }
 }

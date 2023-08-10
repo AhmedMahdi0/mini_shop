@@ -1,9 +1,10 @@
 <?php
 
+use App\Enums\TokenAbility;
+use App\Http\Controllers\Api\LoginController;
+use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\LoginController;
-use App\Enums\TokenAbility;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,4 +42,17 @@ Route::middleware(['auth:sanctum', 'ability:' . TokenAbility::ACCESS_API->value]
             "is_active" => $request->user()->is_active,
         ];
     });
+
+    Route::middleware([\App\Http\Middleware\Api\Admin::class])->group(function () {
+        Route::get('/users', [UserController::class, 'index']);
+
+    });
+
 });
+
+Route::get('/unauthorized', function () {
+    return response()->json([
+        'message' => 'unauthorized'
+    ]);
+});
+

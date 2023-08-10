@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Validation\ValidationException;
 use Laravel\Sanctum\Exceptions\MissingAbilityException;
 use Throwable;
 
@@ -23,15 +24,34 @@ class Handler extends ExceptionHandler
     /**
      * Register the exception handling callbacks for the application.
      */
+
+    public function render($request, \Exception|Throwable $exception)
+    {
+        if ($request->is('api/*')) {
+            if ($exception instanceof AuthorizationException) {
+                return response()->json(['error' => 'Unauthorized Ability'], 403);
+            }
+        }
+        return parent::render($request, $exception);
+    }
+
     public function register(): void
     {
         $this->renderable(function (\Illuminate\Auth\AuthenticationException $e, $request) {
             if ($request->is('api/*')) {
                 return response()->json([
-                    'message' => 'Not authenticated'
+                    'message' => 'unauthorized'
                 ], 401);
             }
-
         });
+        $this->renderable(function (ValidationException $e, $request) {
+            if ($request->is('api/*')) {
+                return response()->json([
+                    'message' => 'error in Validation'
+                ], 401);
+            }
+        });
+
+
     }
 }

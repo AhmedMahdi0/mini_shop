@@ -44,6 +44,7 @@ return [
             'driver' => 'sanctum',
             'provider' => 'users',
             'hash' => false,
+            'hash_algorithm' => 'sha256', // Use the desired hashing algorithm
         ],
 
     ],

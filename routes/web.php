@@ -33,102 +33,93 @@ Route::get('/', function () {
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+Route::prefix('/profile')->middleware('auth')->group(function () {
+    Route::get('/', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+Route::middleware(Admin::class)->group(
+    function () {
+        Route::group(['users'], function () {
+            Route::get('/users', [UserController::class, 'index'])->name('users');
+            Route::get('/delete/{id}', [UserController::class, 'destroy']);
+            Route::get('/create', [UserController::class, 'create']);
+            Route::post('/create', [UserController::class, 'store']);
+            Route::get('/edit/{id}', [UserController::class, 'edit']);
+            Route::post('/edit/{id}', [UserController::class, 'update']);
 
-Route::middleware(Admin::class)->group(
-    function () {
-        Route::get('/users', [UserController::class, 'index'])->name('users');
-        Route::get('/delete/{id}', [UserController::class, 'destroy']);
-        Route::get('/create', [UserController::class, 'create']);
-        Route::post('/create', [UserController::class, 'store']);
-        Route::get('/edit/{id}', [UserController::class, 'edit']);
-        Route::post('/edit/{id}', [UserController::class, 'update']);
+        }
+        );
+        Route::prefix('/vendors')->group(function () {
+            Route::get('/', [VendorsController::class, 'index'])->name('vendors');
+            Route::get('/create', [VendorsController::class, 'create']);
+            Route::post('/create', [VendorsController::class, 'store']);
+            Route::get('/delete/{id}', [VendorsController::class, 'destroy']);
+            Route::get('/edit/{id}', [VendorsController::class, 'edit']);
+            Route::post('/edit/{id}', [VendorsController::class, 'update']);
+        });
 
-    }
-);
-Route::middleware(Admin::class)->group(
-    function () {
-        Route::get('/vendors', [VendorsController::class, 'index'])->name('vendors');
-        Route::get('/vendors/create', [VendorsController::class, 'create']);
-        Route::post('/vendors/create', [VendorsController::class, 'store']);
-        Route::get('/vendors/delete/{id}', [VendorsController::class, 'destroy']);
-        Route::get('/vendors/edit/{id}', [VendorsController::class, 'edit']);
-        Route::post('/vendors/edit/{id}', [VendorsController::class, 'update']);
-    });
+        Route::prefix('/address')->group(function () {
+            Route::get('/{type}/update/{id}', [AddressController::class, 'edit']);
+            Route::post('/{type}/update/{id}', [AddressController::class, 'update']);
+        });
 
-Route::middleware(Admin::class)->group(
-    function () {
-        Route::get('address/{type}/update/{id}', [AddressController::class, 'edit']);
-        Route::post('address/{type}/update/{id}', [AddressController::class, 'update']);
-    });
+        Route::prefix('/brands')->group(function () {
+            Route::get('/', [BrandController::class, 'index']);
+            Route::get('/create', [BrandController::class, 'create']);
+            Route::post('/create', [BrandController::class, 'store']);
+            Route::get('/delete/{id}', [BrandController::class, 'destroy']);
+            Route::get('/edit/{id}', [BrandController::class, 'edit']);
+            Route::post('/edit/{id}', [BrandController::class, 'update']);
+        });
 
-Route::middleware(Admin::class)->group(
-    function () {
-        Route::get('/brands', [BrandController::class, 'index']);
-        Route::get('/brands/create', [BrandController::class, 'create']);
-        Route::post('/brands/create', [BrandController::class, 'store']);
-        Route::get('/brands/delete/{id}', [BrandController::class, 'destroy']);
-        Route::get('/brands/edit/{id}', [BrandController::class, 'edit']);
-        Route::post('/brands/edit/{id}', [BrandController::class, 'update']);
-    });
+        Route::prefix('/items')->group(function () {
+            Route::get('/', [ItemController::class, 'index']);
+            Route::get('/create', [ItemController::class, 'create']);
+            Route::post('/create', [ItemController::class, 'store']);
+            Route::get('/delete/{id}', [ItemController::class, 'destroy']);
+            Route::get('/edit/{id}', [ItemController::class, 'edit']);
+            Route::post('/edit/{id}', [ItemController::class, 'update']);
+        });
+        Route::prefix('/inventory')->group(function () {
+            Route::get('/add/vendor/{id}', [VendorInventoryController::class, 'create']);
+            Route::post('/add/vendor/{id}', [VendorInventoryController::class, 'store']);
+            Route::post('/add/vendor/delete/{id}', [VendorInventoryController::class, 'destroy']);
 
-Route::middleware(Admin::class)->group(
-    function () {
-        Route::get('/items', [ItemController::class, 'index']);
-        Route::get('/items/create', [ItemController::class, 'create']);
-        Route::post('/items/create', [ItemController::class, 'store']);
-        Route::get('/items/delete/{id}', [ItemController::class, 'destroy']);
-        Route::get('/items/edit/{id}', [ItemController::class, 'edit']);
-        Route::post('/items/edit/{id}', [ItemController::class, 'update']);
-    });
-Route::middleware(Admin::class)->group(
-    function () {
-        Route::get('inventory/add/vendor/{id}', [VendorInventoryController::class, 'create']);
-        Route::post('inventory/add/vendor/{id}', [VendorInventoryController::class, 'store']);
-        Route::post('inventory/add/vendor/delete/{id}', [VendorInventoryController::class, 'destroy']);
-    });
+            Route::get('/add/item/{id}', [InventoryItemController::class, 'create']);
+            Route::post('/add/item/{id}', [InventoryItemController::class, 'store']);
+            Route::get('/item/delete/{id}/{item_id}', [InventoryItemController::class, 'destroy']);
 
-Route::middleware(Admin::class)->group(
-    function () {
-        Route::get('inventory/add/item/{id}', [InventoryItemController::class, 'create']);
-        Route::post('inventory/add/item/{id}', [InventoryItemController::class, 'store']);
-        Route::get('inventory/item/delete/{id}/{item_id}', [InventoryItemController::class, 'destroy']);
-    });
+            Route::get('/show/vendor/{id}', [VendorInventoryController::class, 'show']);
+            Route::get('/show/items/{id}', [InventoryItemController::class, 'show']);
 
-Route::middleware(Admin::class)->group(
-    function () {
-        Route::get('inventory/show/vendor/{id}', [VendorInventoryController::class, 'show']);
-        Route::get('inventory/show/items/{id}', [InventoryItemController::class, 'show']);
-    });
-Route::middleware(Admin::class)->group(
-    function () {
-        Route::get('items/add/vendor/{id}', [VendorItemController::class, 'index']);
-        Route::post('items/add/vendor/{id}', [VendorItemController::class, 'store']);
-    });
 
-Route::middleware(Admin::class)->group(
-    function () {
-        Route::get('/inventory', [InventoryController::class, 'index']);
-        Route::get('/inventory/create', [InventoryController::class, 'create']);
-        Route::post('/inventory/create', [InventoryController::class, 'store']);
-        Route::get('/inventory/delete/{id}', [InventoryController::class, 'destroy']);
-        Route::get('/inventory/edit/{id}', [InventoryController::class, 'edit']);
-        Route::post('/inventory/edit/{id}', [InventoryController::class, 'update']);
-        Route::get('/inventory/add', [InventoryController::class, 'show']);
-    });
+        });
+        Route::prefix('/items')->group(function () {
+            Route::get('/add/vendor/{id}', [VendorItemController::class, 'index']);
+            Route::post('/add/vendor/{id}', [VendorItemController::class, 'store']);
+        });
 
-Route::group(['cart'], function () {
-    Route::get('/cart', [CartController::class, 'index']);
-    Route::post('/cart', [CartController::class, 'create']);
-    Route::get('/cart/{id}', [CartController::class, 'destroy']);
+        Route::prefix('/inventory')->group(function () {
+            Route::get('/', [InventoryController::class, 'index']);
+            Route::get('/create', [InventoryController::class, 'create']);
+            Route::post('/create', [InventoryController::class, 'store']);
+            Route::get('/delete/{id}', [InventoryController::class, 'destroy']);
+            Route::get('/edit/{id}', [InventoryController::class, 'edit']);
+            Route::post('/edit/{id}', [InventoryController::class, 'update']);
+            Route::get('/add', [InventoryController::class, 'show']);
+        });
+    });
+Route::prefix('/cart')->group(function () {
+    Route::get('/', [CartController::class, 'index']);
+    Route::post('/', [CartController::class, 'create']);
+    Route::get('/{id}', [CartController::class, 'destroy']);
+
+
 });
-Route::group(['cart'], function () {
-    Route::get('/order/list/{id}', [PurchaseOrderController::class, 'index']);
-    Route::post('/order/list/{id}', [PurchaseOrderController::class, 'store']);
+Route::prefix('/order')->group(function () {
+    Route::get('/list/{id}', [PurchaseOrderController::class, 'index']);
+    Route::post('/list/{id}', [PurchaseOrderController::class, 'store']);
 });
 
 require __DIR__ . '/auth.php';

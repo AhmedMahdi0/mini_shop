@@ -44,7 +44,7 @@ return [
     */
     'expiration' => null,
     'token_expiration' => 60,
-    'rt_expiration' => 7 * 24 * 60,
+    'rt_expiration' => 2 * 24 * 60,
     /*
     |--------------------------------------------------------------------------
     | Sanctum Middleware

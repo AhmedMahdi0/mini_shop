@@ -11,12 +11,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Enums\TokenAbility;
 use Carbon\Carbon;
+use App\Models\PersonalAccessToken;
 use Illuminate\Support\Facades\Password;
 
 class LoginController extends Controller
 {
     public function create(LoginRequest $request): JsonResponse
     {
+
         $credentials = $request->validated();
 
         if (!auth()->attempt($credentials)) {
@@ -30,12 +32,12 @@ class LoginController extends Controller
         }
 
         return $this->makeTokens($user);
+
     }
 
     public function store(RegisterRequest $request): JsonResponse
     {
         $credentials = $request->validated();
-
         $user = new User();
         $password = Hash::make($request->password);
         $user->username = $request->username;
@@ -51,7 +53,6 @@ class LoginController extends Controller
         $user = auth()->user();
 
         return $this->makeTokens($user);
-
     }
 
     public function destroy(Request $request): JsonResponse
@@ -89,6 +90,7 @@ class LoginController extends Controller
 
     protected function makeTokens($user): JsonResponse
     {
+
         $accessToken = $user->createToken('access_token', [TokenAbility::ACCESS_API->value]
             , Carbon::now()->addMinutes(config('sanctum.token_expiration')));
 
