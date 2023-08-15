@@ -45,6 +45,9 @@ Route::middleware(['auth:sanctum', 'ability:' . TokenAbility::ACCESS_API->value]
 
     Route::middleware([\App\Http\Middleware\Api\Admin::class])->group(function () {
         Route::get('/users', [UserController::class, 'index']);
+        Route::post('/users/create', [UserController::class, 'store']);
+        Route::patch('/users/edit/{id}', [UserController::class, 'update']);
+        Route::delete('/users/delete/{id}', [UserController::class, 'destroy']);
 
     });
 
@@ -55,4 +58,3 @@ Route::get('/unauthorized', function () {
         'message' => 'unauthorized'
     ]);
 });
-
