@@ -8,7 +8,7 @@ use App\Http\Requests\ValidateUserRequest;
 use App\Http\Resources\UserCollection;
 use App\Http\Resources\UserResource;
 use App\Models\User;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -16,10 +16,8 @@ class UserController extends Controller
     public function index()
     {
         $pagination = 20;
-        $users = new UserCollection(User::with("address")->paginate($pagination));
-        return response()->json([
-            'users' => $users
-        ]);
+        $users=User::with("address")->paginate($pagination);
+        return Response::customResponse("return users",UserResource::collection($users));
     }
 
     public function store(ValidateUserRequest $request)
@@ -37,9 +35,7 @@ class UserController extends Controller
         $user->is_active = $request->is_active??1;
         $user->save();
 
-        return response()->json([
-            'user' => UserResource::make($user)
-        ]);
+        return Response::customResponse("return user stored",UserResource::make($user));
 
     }
 

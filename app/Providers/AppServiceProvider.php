@@ -22,6 +22,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        CustomResponseService::response();
         Paginator::useBootstrapFive();
         PurchaseOrder::observe(PurchaseOrderObserver::class);
     }
