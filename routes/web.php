@@ -15,6 +15,7 @@ use App\Http\Controllers\dashboard\VendorInventoryController;
 use App\Http\Controllers\dashboard\VendorItemController;
 use App\Http\Middleware\Admin;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\dashboard\EmailController;
 
 /*
 |--------------------------------------------------------------------------
@@ -108,6 +109,10 @@ Route::middleware(Admin::class)->group(
             Route::get('/edit/{id}', [InventoryController::class, 'edit']);
             Route::post('/edit/{id}', [InventoryController::class, 'update']);
             Route::get('/add', [InventoryController::class, 'show']);
+        });
+        Route::prefix("/email")->group(function () {
+            Route::get('/send', [EmailController::class, 'index']);
+            Route::post('/send', [EmailController::class, 'store']);
         });
     });
 Route::prefix('/cart')->group(function () {

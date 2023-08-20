@@ -76,6 +76,21 @@
 
                         <li class="nav-small-cap">
                             <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                            <span class="hide-menu">Email</span>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="{{url('email/send')}}" aria-expanded="false">
+                <span>
+                  <i class="ti ti-mail"></i>
+                </span>
+                                <span class="hide-menu">Send Email</span>
+
+                            </a>
+                        </li>
+
+
+                        <li class="nav-small-cap">
+                            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                             <span class="hide-menu">Brands</span>
                         </li>
                         <li class="sidebar-item">

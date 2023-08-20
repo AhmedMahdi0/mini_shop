@@ -9,25 +9,23 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class VendorEmail extends Mailable
+class UserMail extends Mailable
 {
     use Queueable, SerializesModels;
-
-    protected $data;
 
     /**
      * Create a new message instance.
      */
-    public function __construct($data)
+    protected $name;
+    public function __construct($name)
     {
-        $this->data = $data;
+        $this->name=$name;
     }
-
     public function build()
     {
-        return $this->view('emails.email-vendor')
-            ->subject('Inventory is less than 50')
-            ->with('data', $this->data);
+        return $this->view('emails.welcome')
+            ->subject('welcome User')
+            ->with('name', $this->name);
     }
     /**
      * Get the message envelope.
@@ -35,17 +33,16 @@ class VendorEmail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Vendor Email',
+            subject: 'welcome User',
         );
     }
-
     /**
      * Get the message content definition.
      */
     public function content(): Content
     {
         return new Content(
-            view: 'email.email-vendor',
+            view: 'email.welcome',
         );
     }
 

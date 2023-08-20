@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 
 class CustomResponseService
@@ -14,11 +13,9 @@ class CustomResponseService
             $responseData = [
                 'message' => $message,
             ];
-
             if (!empty($data)) {
                 $responseData['data'] = $data;
             }
-
             return response()->json($responseData, $statusCode);
         });
     }
