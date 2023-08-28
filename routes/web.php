@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\dashboard\DashboardController;
 use App\Http\Controllers\dashboard\ProfileController;
-use App\Http\Controllers\dashboard\UserController;
 use App\Http\Controllers\dashboard\VendorsController;
 use App\Http\Controllers\dashboard\BrandController;
 use App\Http\Controllers\dashboard\InventoryController;
@@ -39,18 +38,9 @@ Route::prefix('/profile')->middleware('auth')->group(function () {
     Route::patch('/', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-Route::middleware(Admin::class)->group(
+Route::middleware(['auth', 'verified',Admin::class])->group(
     function () {
-        Route::group(['users'], function () {
-            Route::get('/users', [UserController::class, 'index'])->name('users');
-            Route::get('/delete/{id}', [UserController::class, 'destroy']);
-            Route::get('/create', [UserController::class, 'create']);
-            Route::post('/create', [UserController::class, 'store']);
-            Route::get('/edit/{id}', [UserController::class, 'edit']);
-            Route::post('/edit/{id}', [UserController::class, 'update']);
 
-        }
-        );
         Route::prefix('/vendors')->group(function () {
             Route::get('/', [VendorsController::class, 'index'])->name('vendors');
             Route::get('/create', [VendorsController::class, 'create']);
@@ -128,3 +118,5 @@ Route::prefix('/order')->group(function () {
 });
 
 require __DIR__ . '/auth.php';
+
+//require __DIR__ . '/../Modules/UserModule/routes/web.php';

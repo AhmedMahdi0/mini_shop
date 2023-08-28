@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class Admin
 {
-    public function handle(Request $request, Closure $next,): Response
+    public function handle(Request $request, Closure $next): Response
     {
         $is_admin = empty($request->user()->is_admin) ? false : $request->user()->is_admin;
 

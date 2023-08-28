@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "aa322c53454393ed775cfe4807d54a50",
+    "content-hash": "f22d1725f3fc27a02c86f8199290a6a1",
     "packages": [
         {
             "name": "brick/math",
@@ -1759,6 +1759,38 @@
                 }
             ],
             "time": "2022-04-17T13:12:02+00:00"
+        },
+        {
+            "name": "module/usermodule",
+            "version": "50.16",
+            "dist": {
+                "type": "path",
+                "url": "Modules/UserModule",
+                "reference": "a7272ac787c774acdf07554c69d9971ac69c4636"
+            },
+            "require": {
+                "laravel/framework": "^10.10",
+                "php": "^8.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "UserModule\\": "app/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "authors": [
+                {
+                    "name": "ahmed",
+                    "email": "ahmed.h.b.mahdi@gmail.com"
+                }
+            ],
+            "description": "description",
+            "transport-options": {
+                "relative": true
+            }
         },
         {
             "name": "monolog/monolog",

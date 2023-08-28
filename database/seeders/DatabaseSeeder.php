@@ -3,12 +3,12 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use App\Models\User;
-use App\Models\Vendor;
-use App\Models\Country;
-use App\Models\City;
 use App\Models\Address;
+use App\Models\City;
+use App\Models\Country;
+use App\Models\Vendor;
 use Illuminate\Database\Seeder;
+use Modules\UserModule\app\Models\User;
 
 class DatabaseSeeder extends Seeder
 {

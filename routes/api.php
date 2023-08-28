@@ -1,10 +1,10 @@
 <?php
 
 use App\Enums\TokenAbility;
-use App\Http\Controllers\Api\LoginController;
-use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use app\Http\Controllers\api\LoginController;
+use app\Http\Controllers\api\UserController;
 
 /*
 |--------------------------------------------------------------------------

@@ -4,9 +4,7 @@ namespace App\Http\Controllers\dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MailRequest;
-use App\Jobs\SendUserEmail;
-use App\Models\User;
-use Illuminate\Support\Facades\Mail;
+use Modules\UserModule\app\Models\User;
 
 class EmailController extends Controller
 {
